@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dev.Web.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class DevDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public DevDbContext(DbContextOptions<DevDbContext> options)
             : base(options)
         {
         }
