@@ -6,7 +6,7 @@
         Task<TEntity> EditAsync(TEntity entity);
         Task<TEntity> DeleteAsync(TEntity entity);
 
-        IQueryable<TEntity> GetAllAsync();
+        IQueryable<TEntity> GetAll();
         IQueryable<TEntity> GetAllAsNoTracking();
     }
 }
