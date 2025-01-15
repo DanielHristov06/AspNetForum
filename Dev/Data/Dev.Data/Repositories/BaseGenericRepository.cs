@@ -30,11 +30,11 @@ namespace Dev.Data.Repositories
         }
 
         public IQueryable<TEntity> GetAllAsNoTracking() {
-            return dbc.Set<TEntity>().AsQueryable<TEntity>();
+            return dbc.Set<TEntity>().AsNoTracking();
         }
 
         public IQueryable<TEntity> GetAll() {
-            return dbc.Set<TEntity>().AsNoTracking();
+            return dbc.Set<TEntity>().AsQueryable<TEntity>();
         }
     }
 }
