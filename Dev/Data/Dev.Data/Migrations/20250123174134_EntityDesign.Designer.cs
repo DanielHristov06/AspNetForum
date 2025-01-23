@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dev.Web.Data.Migrations
 {
     [DbContext(typeof(DevDbContext))]
-    [Migration("20250123172101_sdfgf")]
-    partial class sdfgf
+    [Migration("20250123174134_EntityDesign")]
+    partial class EntityDesign
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
