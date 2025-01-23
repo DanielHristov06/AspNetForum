@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Dev.Data.Models\Dev.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\Dev.Data\Dev.Data.csproj" />
-    <ProjectReference Include="..\Dev.Service.Mappings\Dev.Service.Mappings.csproj" />
     <ProjectReference Include="..\Dev.Service.Models\Dev.Service.Models.csproj" />
   </ItemGroup>
 

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dev.Data.Models", "Data\Dev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dev.Service.Models", "Service\Dev.Service.Models\Dev.Service.Models.csproj", "{E4B81A33-6B02-4FFE-BC63-61AB7ADD1895}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dev.Service.Mappings", "Service\Dev.Service.Mappings\Dev.Service.Mappings.csproj", "{F8B18AB2-CB50-48D9-9D91-6326D62F8CF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{E4B81A33-6B02-4FFE-BC63-61AB7ADD1895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4B81A33-6B02-4FFE-BC63-61AB7ADD1895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4B81A33-6B02-4FFE-BC63-61AB7ADD1895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B18AB2-CB50-48D9-9D91-6326D62F8CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B18AB2-CB50-48D9-9D91-6326D62F8CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B18AB2-CB50-48D9-9D91-6326D62F8CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B18AB2-CB50-48D9-9D91-6326D62F8CF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,5 +68,6 @@ Global
 		{56FDCE7F-4635-4394-877E-2531C39ECEF6} = {ACF11082-07F5-45CE-8C59-2FC8A208208D}
 		{67ABB60A-D26A-4FA4-9E4E-E30760F27CE8} = {EBC68917-37E3-45EA-AA05-75F580A94720}
 		{E4B81A33-6B02-4FFE-BC63-61AB7ADD1895} = {BE8555CB-876A-4142-87BB-13E76F71C192}
+		{F8B18AB2-CB50-48D9-9D91-6326D62F8CF9} = {BE8555CB-876A-4142-87BB-13E76F71C192}
 	EndGlobalSection
 EndGlobal

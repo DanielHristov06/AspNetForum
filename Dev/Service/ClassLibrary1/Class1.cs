@@ -1,4 +1,4 @@
-﻿namespace Dev.Service.Models
+﻿namespace ClassLibrary1
 {
     public class Class1
     {
