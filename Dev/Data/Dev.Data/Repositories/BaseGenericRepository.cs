@@ -11,29 +11,29 @@ namespace Dev.Data.Repositories
             this.dbc = dbc;
         }
 
-        public async Task<TEntity> CreateAsync(TEntity entity) {
+        public virtual async Task<TEntity> CreateAsync(TEntity entity) {
             await dbc.AddAsync(entity);
             await dbc.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<TEntity> DeleteAsync(TEntity entity) {
+        public virtual async Task<TEntity> DeleteAsync(TEntity entity) {
             dbc.Remove(entity);
             await dbc.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<TEntity> EditAsync(TEntity entity) {
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity) {
             dbc.Update(entity);
             await dbc.SaveChangesAsync();
             return entity;
         }
 
-        public IQueryable<TEntity> GetAllAsNoTracking() {
+        public virtual IQueryable<TEntity> GetAllAsNoTracking() {
             return dbc.Set<TEntity>().AsNoTracking();
         }
 
-        public IQueryable<TEntity> GetAll() {
+        public virtual IQueryable<TEntity> GetAll() {
             return dbc.Set<TEntity>().AsQueryable<TEntity>();
         }
     }
