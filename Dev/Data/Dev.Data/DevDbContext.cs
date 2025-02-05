@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Dev.Web.Data
+namespace Dev.Data
 {
     public class DevDbContext : IdentityDbContext<DevUser>
     {

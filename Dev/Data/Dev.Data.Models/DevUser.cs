@@ -4,6 +4,6 @@ namespace Dev.Data.Models
 {
     public class DevUser : IdentityUser
     {
-        public DevRole ForumRole { get; set; }
+        public DevRole? ForumRole { get; set; }
     }
 }

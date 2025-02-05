@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dev.Web.Data.Migrations
 {
     [DbContext(typeof(DevDbContext))]
-    [Migration("20250122022143_InitialEntitiesDesigns")]
-    partial class InitialEntitiesDesigns
+    [Migration("20250204235043_NullableForumRole")]
+    partial class NullableForumRole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,32 +148,11 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreateById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UpdatedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreateById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("ForumRoles");
                 });
@@ -246,7 +225,6 @@ namespace Dev.Web.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ForumRoleId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -622,33 +600,6 @@ namespace Dev.Web.Data.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Dev.Data.Models.DevRole", b =>
-                {
-                    b.HasOne("Dev.Data.Models.DevUser", "CreateBy")
-                        .WithMany()
-                        .HasForeignKey("CreateById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Dev.Data.Models.DevUser", "DeletedBy")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Dev.Data.Models.DevUser", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CreateBy");
-
-                    b.Navigation("DeletedBy");
-
-                    b.Navigation("UpdatedBy");
-                });
-
             modelBuilder.Entity("Dev.Data.Models.DevThread", b =>
                 {
                     b.HasOne("Dev.Data.Models.Category", "Category")
@@ -682,9 +633,7 @@ namespace Dev.Web.Data.Migrations
                 {
                     b.HasOne("Dev.Data.Models.DevRole", "ForumRole")
                         .WithMany()
-                        .HasForeignKey("ForumRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ForumRoleId");
 
                     b.Navigation("ForumRole");
                 });
