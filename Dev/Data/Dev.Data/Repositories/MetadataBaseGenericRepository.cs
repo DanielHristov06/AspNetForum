@@ -18,7 +18,7 @@ namespace Dev.Data.Repositories
         public override async Task<TEntity> CreateAsync(TEntity entity)
         {
             entity.CreatedOn = DateTime.UtcNow;
-            entity.CreateBy = await this.GetUser();
+            entity.CreatedBy = await this.GetUser();
             return await base.CreateAsync(entity);
         }
 

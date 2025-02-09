@@ -1,5 +1,7 @@
 using Dev.Data;
 using Dev.Data.Models;
+using Dev.Web.Seed;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,9 @@ builder.Services.AddDbContext<DevDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<DevUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services
+    .AddDefaultIdentity<DevUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<DevDbContext>();
 builder.Services.AddControllersWithViews();
 
@@ -28,6 +32,7 @@ else
     app.UseHsts();
 }
 
+app.UseDatabaseSeed();
 app.UseHttpsRedirection();
 app.UseRouting();
 

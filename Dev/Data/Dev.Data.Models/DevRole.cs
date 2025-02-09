@@ -1,7 +1,7 @@
 ﻿
 namespace Dev.Data.Models
 {
-    public class DevRole : BaseEntity
+    public class DevRole : MetadataBaseEntity
     {
         public const string DevDefaultAuthority = "User";
         public string Label { get; set; }

@@ -8,7 +8,7 @@ namespace Dev.Data.Models
 {
     public abstract class MetadataBaseEntity : BaseEntity
     {
-        public DevUser CreateBy { get; set; }
+        public DevUser CreatedBy { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

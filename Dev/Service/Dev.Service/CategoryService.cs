@@ -41,7 +41,7 @@ namespace Dev.Service
         public IQueryable<CategoryServiceModel> GetAll()
         {
             return this.categoryRepository.GetAll()
-                .Include(c => c.CreateBy)
+                .Include(c => c.CreatedBy)
                 .Include(c => c.UpdatedBy)
                 .Include(c => c.DeletedBy)
                 .Select(c => c.ToModel());
@@ -50,7 +50,7 @@ namespace Dev.Service
         public async Task<CategoryServiceModel> GetByIdAsync(string id)
         {
             return (await this.categoryRepository.GetAll()
-                .Include(c => c.CreateBy)
+                .Include(c => c.CreatedBy)
                 .Include(c => c.UpdatedBy)
                 .Include(c => c.DeletedBy)
                 .SingleOrDefaultAsync(c => c.Id == id))?.ToModel();

@@ -4,6 +4,7 @@ using Dev.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dev.Web.Data.Migrations
 {
     [DbContext(typeof(DevDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250206170936_fs")]
+    partial class fs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +53,7 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CreatedById")
+                    b.Property<string>("CreateById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -80,7 +83,7 @@ namespace Dev.Web.Data.Migrations
 
                     b.HasIndex("CoverPhotoId");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CreateById");
 
                     b.HasIndex("DeletedById");
 
@@ -101,7 +104,7 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedById")
+                    b.Property<string>("CreateById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -123,7 +126,7 @@ namespace Dev.Web.Data.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CreateById");
 
                     b.HasIndex("DeletedById");
 
@@ -145,38 +148,11 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UpdatedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("DeletedById");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("ForumRoles");
                 });
@@ -194,7 +170,7 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreatedById")
+                    b.Property<string>("CreateById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -220,7 +196,7 @@ namespace Dev.Web.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CreateById");
 
                     b.HasIndex("DeletedById");
 
@@ -304,7 +280,7 @@ namespace Dev.Web.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CreatedById")
+                    b.Property<string>("CreateById")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -332,7 +308,7 @@ namespace Dev.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CreateById");
 
                     b.HasIndex("DeletedById");
 
@@ -578,9 +554,9 @@ namespace Dev.Web.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dev.Data.Models.DevUser", "CreatedBy")
+                    b.HasOne("Dev.Data.Models.DevUser", "CreateBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById");
+                        .HasForeignKey("CreateById");
 
                     b.HasOne("Dev.Data.Models.DevUser", "DeletedBy")
                         .WithMany()
@@ -592,7 +568,7 @@ namespace Dev.Web.Data.Migrations
 
                     b.Navigation("CoverPhoto");
 
-                    b.Navigation("CreatedBy");
+                    b.Navigation("CreateBy");
 
                     b.Navigation("DeletedBy");
 
@@ -605,9 +581,9 @@ namespace Dev.Web.Data.Migrations
                         .WithMany("Replies")
                         .HasForeignKey("CommentId");
 
-                    b.HasOne("Dev.Data.Models.DevUser", "CreatedBy")
+                    b.HasOne("Dev.Data.Models.DevUser", "CreateBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById");
+                        .HasForeignKey("CreateById");
 
                     b.HasOne("Dev.Data.Models.DevUser", "DeletedBy")
                         .WithMany()
@@ -617,34 +593,7 @@ namespace Dev.Web.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedById");
 
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("DeletedBy");
-
-                    b.Navigation("UpdatedBy");
-                });
-
-            modelBuilder.Entity("Dev.Data.Models.DevRole", b =>
-                {
-                    b.HasOne("Dev.Data.Models.DevUser", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Dev.Data.Models.DevUser", "DeletedBy")
-                        .WithMany()
-                        .HasForeignKey("DeletedById")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Dev.Data.Models.DevUser", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
+                    b.Navigation("CreateBy");
 
                     b.Navigation("DeletedBy");
 
@@ -659,9 +608,9 @@ namespace Dev.Web.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Dev.Data.Models.DevUser", "CreatedBy")
+                    b.HasOne("Dev.Data.Models.DevUser", "CreateBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById");
+                        .HasForeignKey("CreateById");
 
                     b.HasOne("Dev.Data.Models.DevUser", "DeletedBy")
                         .WithMany()
@@ -673,7 +622,7 @@ namespace Dev.Web.Data.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("CreatedBy");
+                    b.Navigation("CreateBy");
 
                     b.Navigation("DeletedBy");
 
@@ -684,17 +633,16 @@ namespace Dev.Web.Data.Migrations
                 {
                     b.HasOne("Dev.Data.Models.DevRole", "ForumRole")
                         .WithMany()
-                        .HasForeignKey("ForumRoleId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("ForumRoleId");
 
                     b.Navigation("ForumRole");
                 });
 
             modelBuilder.Entity("Dev.Data.Models.Reaction", b =>
                 {
-                    b.HasOne("Dev.Data.Models.DevUser", "CreatedBy")
+                    b.HasOne("Dev.Data.Models.DevUser", "CreateBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById");
+                        .HasForeignKey("CreateById");
 
                     b.HasOne("Dev.Data.Models.DevUser", "DeletedBy")
                         .WithMany()
@@ -710,7 +658,7 @@ namespace Dev.Web.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedById");
 
-                    b.Navigation("CreatedBy");
+                    b.Navigation("CreateBy");
 
                     b.Navigation("DeletedBy");
 
