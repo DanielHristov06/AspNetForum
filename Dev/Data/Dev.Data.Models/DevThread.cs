@@ -1,5 +1,4 @@
-﻿
-namespace Dev.Data.Models
+﻿namespace Dev.Data.Models
 {
     public class DevThread : MetadataBaseEntity
     {
@@ -7,7 +6,8 @@ namespace Dev.Data.Models
 
         public string Content { get; set; }
 
-        public Category Category { get; set; }
+        public Hub Hub { get; set; }
+        public List<DevTag> Tags { get; set; }
 
         public List<UserThreadReaction> Reactions { get; set; }
 

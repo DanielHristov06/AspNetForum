@@ -3,25 +3,28 @@ using Dev.Service.Models;
 
 namespace Dev.Service.Mappings
 {
-    public static class CategoryMappings
+    public static class HubMappings
     {
-        public static Category ToEntity(this CategoryServiceModel model)
+        public static Hub ToEntity(this HubServiceModel model)
         {
-            return new Category
+            return new Hub
             {
                 Name = model.Name,
                 Description = model.Description,
-                CoverPhoto = model.CoverPhoto?.ToEntity()
+                HubPhoto = model.HubPhoto?.ToEntity(),
+                BannerPhoto = model.BannerPhoto?.ToEntity()
             };
         }
 
-        public static CategoryServiceModel ToModel(this Category entity)
+        public static HubServiceModel ToModel(this Hub entity)
         {
-            return new CategoryServiceModel
+            return new HubServiceModel
             {
+                Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
-                CoverPhoto = entity.CoverPhoto.ToModel(),
+                HubPhoto = entity.HubPhoto.ToModel(),
+                BannerPhoto = entity.BannerPhoto.ToModel(),
                 CreatedOn = entity.CreatedOn,
                 UpdatedOn = entity.UpdatedOn,
                 DeletedOn = entity.DeletedOn,

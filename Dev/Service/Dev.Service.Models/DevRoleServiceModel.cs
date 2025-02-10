@@ -2,7 +2,7 @@
 
 namespace Dev.Service.Models
 {
-    public class DevRoleServiceModel : BaseServiceModel
+    public class DevRoleServiceModel : MetadataBaseServiceModel
     {
         public const string DevRoleDefaultAuthority = "User"; 
 

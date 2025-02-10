@@ -4,6 +4,7 @@ using Dev.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dev.Web.Data.Migrations
 {
     [DbContext(typeof(DevDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250210203100_Hub_Tag_GenericConfig")]
+    partial class Hub_Tag_GenericConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,6 +155,12 @@ namespace Dev.Web.Data.Migrations
                     b.Property<DateTime>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DevThreadId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("HubId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Label")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -168,6 +177,10 @@ namespace Dev.Web.Data.Migrations
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("DeletedById");
+
+                    b.HasIndex("DevThreadId");
+
+                    b.HasIndex("HubId");
 
                     b.HasIndex("UpdatedById");
 
@@ -473,36 +486,6 @@ namespace Dev.Web.Data.Migrations
                     b.ToTable("UserThreadReaction");
                 });
 
-            modelBuilder.Entity("DevTagDevThread", b =>
-                {
-                    b.Property<string>("DevThreadId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TagsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DevThreadId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("DevTagDevThread");
-                });
-
-            modelBuilder.Entity("DevTagHub", b =>
-                {
-                    b.Property<string>("HubId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TagsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("HubId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("DevTagHub");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -713,6 +696,14 @@ namespace Dev.Web.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Dev.Data.Models.DevThread", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("DevThreadId");
+
+                    b.HasOne("Dev.Data.Models.Hub", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("HubId");
+
                     b.HasOne("Dev.Data.Models.DevUser", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
@@ -910,36 +901,6 @@ namespace Dev.Web.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DevTagDevThread", b =>
-                {
-                    b.HasOne("Dev.Data.Models.DevThread", null)
-                        .WithMany()
-                        .HasForeignKey("DevThreadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Dev.Data.Models.DevTag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DevTagHub", b =>
-                {
-                    b.HasOne("Dev.Data.Models.Hub", null)
-                        .WithMany()
-                        .HasForeignKey("HubId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Dev.Data.Models.DevTag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1005,6 +966,13 @@ namespace Dev.Web.Data.Migrations
                     b.Navigation("Comment");
 
                     b.Navigation("Reactions");
+
+                    b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("Dev.Data.Models.Hub", b =>
+                {
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }
