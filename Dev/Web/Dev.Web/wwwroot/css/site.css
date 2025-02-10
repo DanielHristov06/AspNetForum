@@ -150,11 +150,24 @@ trix-toolbar .trix-button {
 }
 
 #topbar-logo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 10%;
 }
 
 #topbar-actions-container {
     width: 90%;
+}
+
+#topbar-signin {
+    margin-left: auto;
+}
+
+#topbar-signin a {
+    padding: 8px 15px;
+    font-size: 16px;
+    border-radius: 5px;
 }
 
 /* END TOP BAR STYLING */
