@@ -3,26 +3,22 @@ using Dev.Service.Models;
 
 namespace Dev.Service.Mappings
 {
-    public static class DevRoleMappings
+    public static class DevTagMappings
     {
-        public static DevRole ToEntity(this DevRoleServiceModel model)
+        public static DevTag ToEntity(this DevTagServiceModel model)
         {
-            return new DevRole
+            return new DevTag
             {
-                Label = model.Label,
-                Color = model.Color,
-                Authority = model.Authority
+                Label = model.Label
             };
         }
 
-        public static DevRoleServiceModel ToModel(this DevRole entity)
+        public static DevTagServiceModel ToModel(this DevTag entity)
         {
-            return new DevRoleServiceModel
+            return new DevTagServiceModel
             {
                 Id = entity.Id,
                 Label = entity.Label,
-                Color = entity.Color,
-                Authority = entity.Authority,
                 CreatedOn = entity.CreatedOn,
                 UpdatedOn = entity.UpdatedOn,
                 DeletedOn = entity.DeletedOn,

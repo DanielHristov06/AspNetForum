@@ -6,27 +6,27 @@ using Dev.Service.Mappings;
 
 namespace Dev.Service
 {
-    public class CategoryService : ICategoryService
+    public class HubService : IHubService
     {
-        private readonly CategoryRepository categoryRepository;
+        private readonly HubRepository categoryRepository;
 
-        public CategoryService(CategoryRepository categoryRepository)
+        public HubService(HubRepository categoryRepository)
         {
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryServiceModel> CreateAsync(CategoryServiceModel model)
+        public async Task<HubServiceModel> CreateAsync(HubServiceModel model)
         {
-            Category category = model.ToEntity();
+            Hub category = model.ToEntity();
 
             await this.categoryRepository.CreateAsync(category);
 
             return category.ToModel();
         }
 
-        public async Task<CategoryServiceModel> DeleteAsync(string id)
+        public async Task<HubServiceModel> DeleteAsync(string id)
         {
-            Category category = await this.categoryRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
+            Hub category = await this.categoryRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
             {
@@ -38,7 +38,7 @@ namespace Dev.Service
             return category.ToModel();
         }
 
-        public IQueryable<CategoryServiceModel> GetAll()
+        public IQueryable<HubServiceModel> GetAll()
         {
             return this.categoryRepository.GetAll()
                 .Include(c => c.CreatedBy)
@@ -47,7 +47,7 @@ namespace Dev.Service
                 .Select(c => c.ToModel());
         }
 
-        public async Task<CategoryServiceModel> GetByIdAsync(string id)
+        public async Task<HubServiceModel> GetByIdAsync(string id)
         {
             return (await this.categoryRepository.GetAll()
                 .Include(c => c.CreatedBy)
@@ -56,9 +56,9 @@ namespace Dev.Service
                 .SingleOrDefaultAsync(c => c.Id == id))?.ToModel();
         }
 
-        public async Task<CategoryServiceModel> UpdateAsync(string id, CategoryServiceModel model)
+        public async Task<HubServiceModel> UpdateAsync(string id, HubServiceModel model)
         {
-            Category category = await this.categoryRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
+            Hub category = await this.categoryRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
             {
@@ -67,7 +67,8 @@ namespace Dev.Service
 
             category.Name = model.Name;
             category.Description = model.Description;
-            category.CoverPhoto = model.CoverPhoto != null ? model.CoverPhoto.ToEntity() : category.CoverPhoto;
+            category.HubPhoto = model.HubPhoto != null ? model.HubPhoto.ToEntity() : category.HubPhoto;
+            category.BannerPhoto = model.HubPhoto != null ? model.BannerPhoto.ToEntity() : category.BannerPhoto;
 
             await this.categoryRepository.UpdateAsync(category);
 

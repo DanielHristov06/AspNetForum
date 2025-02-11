@@ -1,0 +1,42 @@
+﻿@using Dev.Web.Models.Thread
+@model CreateThreadModel
+
+<form asp-controller="Thread" asp-action="Create" method="post" id="create-thread-form">
+    <h1>Post Thread</h1>
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <div class="mb-3">
+        <label asp-for="@Model.Title" class="form-label">Title</label>
+        <input asp-for="@Model.Title" class="form-control" aria-required="true" placeholder="Thread title..." />
+        <span asp-validation-for="@Model.Title" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@Model.Content" class="form-label">Content</label>
+        <textarea asp-for="@Model.Content" class="form-control" aria-required="true" placeholder="Thread content..." rows="5"></textarea>
+        <span asp-validation-for="@Model.Content" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <input type="hidden" asp-for="@Model.TagsIds" hidden disabled/>
+        <label class="form-label">Tags</label>
+        <input class="form-control tags-input p-2" placeholder="Tags..." />
+        <div class="created-tags d-flex justify-content-start">
+            <span class="created-tag">#sigma</span>
+            <span class="created-tag">#alpha</span>
+            <span class="created-tag">#beta</span>
+        </div>
+    </div>
+    <button class="btn btn-secondary">Post</button>
+</form>
+
+<script>
+    const currentTags = [];
+
+    document.querySelector('.tags-input').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter' || e.keyCode === 13){
+            if (!currentTags.includes(e.target.value)){
+                currentTags.push(e.target.value);
+                console.log(e.target.value);
+                e.target.value = '';
+            }
+        }
+    });
+</script>

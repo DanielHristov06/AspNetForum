@@ -21,10 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Dev.Data\Dev.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+    <ProjectReference Include="..\Dev.Web.Models\Dev.Web.Models.csproj" />
   </ItemGroup>
 
 </Project>

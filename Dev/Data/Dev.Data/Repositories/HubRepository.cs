@@ -7,9 +7,9 @@ namespace Dev.Data.Repositories
 {
     
 
-    public class CategoryRepository : MetadataBaseGenericRepository<Category>
+    public class HubRepository : MetadataBaseGenericRepository<Hub>
     {
-        public CategoryRepository(DevDbContext dbc, IHttpContextAccessor httpContextAccessor)
+        public HubRepository(DevDbContext dbc, IHttpContextAccessor httpContextAccessor)
             : base(dbc, httpContextAccessor)
         {
         }
