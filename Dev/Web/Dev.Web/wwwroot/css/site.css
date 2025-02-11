@@ -210,6 +210,26 @@ trix-toolbar .trix-button {
 
 /* LAYOUT ACTIONS STYLING */
 
+#post-thread-button{
+    border-radius: 25px;
+    padding: 5px;
+    border: 3px solid #FFFFFF;
+}
+
+#post-thread-button img{
+    margin-bottom: 10px;
+}
+
+#layout-profile {
+    border-radius: 25px;
+    padding: 5px;
+    border: 3px solid #FFFFFF;
+}
+
+/* END LAYOUT ACTIONS STYLING */
+
+/* LAYOUT ACTIONS STYLING */
+
 #actions {
     width: 30%;
 }
@@ -603,3 +623,25 @@ trix-toolbar .trix-button {
 }
 
 /* END DETAILS THREAD STYLING */
+
+/* CREATE THREAD STYLING */
+
+#create-thread-form{
+    padding: 30px;
+}
+
+.created-tags{
+    position: relative;
+    bottom: 37px;
+    left: 3px;
+}
+
+.created-tag{
+    padding: 5px 10px 5px 10px;
+    border-radius: 25px;
+    background-color: blueviolet;
+    color: azure;
+    font-weight: bold;
+}
+
+/* END CREATE THREAD STYLING */
