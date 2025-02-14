@@ -11,6 +11,7 @@ namespace Dev.Service.Mappings
             {
                 Name = model.Name,
                 Description = model.Description,
+                Tags = model.Tags.Select(tag => tag.ToEntity()).ToList(),
                 HubPhoto = model.HubPhoto?.ToEntity(),
                 BannerPhoto = model.BannerPhoto?.ToEntity()
             };
@@ -23,14 +24,15 @@ namespace Dev.Service.Mappings
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
-                HubPhoto = entity.HubPhoto.ToModel(),
-                BannerPhoto = entity.BannerPhoto.ToModel(),
+                Tags = entity.Tags.Select(tag => tag.ToModel()).ToList(),
+                HubPhoto = entity.HubPhoto?.ToModel(),
+                BannerPhoto = entity.BannerPhoto?.ToModel(),
                 CreatedOn = entity.CreatedOn,
                 UpdatedOn = entity.UpdatedOn,
                 DeletedOn = entity.DeletedOn,
                 CreatedBy = entity.CreatedBy.ToModel(),
-                UpdatedBy = entity.UpdatedBy.ToModel(),
-                DeletedBy = entity.DeletedBy.ToModel()
+                UpdatedBy = entity.UpdatedBy?.ToModel(),
+                DeletedBy = entity.DeletedBy?.ToModel()
             };
         }
     }

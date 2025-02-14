@@ -12,12 +12,12 @@ namespace Dev.Data.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public DevUser UpdatedBy { get; set; }
+        public DevUser? UpdatedBy { get; set; }
 
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
 
-        public DevUser DeletedBy { get; set; }
+        public DevUser? DeletedBy { get; set; }
 
-        public DateTime DeletedOn { get; set; }
+        public DateTime? DeletedOn { get; set; }
     }
 }

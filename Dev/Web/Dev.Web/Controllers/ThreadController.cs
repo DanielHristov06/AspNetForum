@@ -8,13 +8,13 @@ namespace Dev.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View("~/Views/Shared/ThreadCommunityCreate.cshtml");
         }
 
         [HttpPost]
         public IActionResult CreateConfirm(CreateThreadModel model)
         {
-            return View();
+            return View("~/Views/Shared/ThreadCommunityCreate.cshtml");
         }
     }
 }
