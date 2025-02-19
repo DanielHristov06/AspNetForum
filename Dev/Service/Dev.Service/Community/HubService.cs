@@ -3,7 +3,6 @@ using Dev.Service.Models;
 using Microsoft.EntityFrameworkCore;
 using Dev.Data.Repositories;
 using Dev.Service.Mappings;
-using Dev.Service.Tag;
 
 namespace Dev.Service.Community
 {
@@ -49,9 +48,12 @@ namespace Dev.Service.Community
         public IQueryable<HubServiceModel> GetAll()
         {
             return hubRepository.GetAll()
+                .Include(c => c.Tags)
                 .Include(c => c.CreatedBy)
                 .Include(c => c.UpdatedBy)
                 .Include(c => c.DeletedBy)
+                .Include(c => c.HubPhoto)
+                .Include(c => c.BannerPhoto)
                 .Select(c => c.ToModel());
         }
 
@@ -62,6 +64,11 @@ namespace Dev.Service.Community
                 .Include(c => c.UpdatedBy)
                 .Include(c => c.DeletedBy)
                 .SingleOrDefaultAsync(c => c.Id == id))?.ToModel();
+        }
+
+        public async Task<Hub> InternalGetByIdAsync(string id)
+        {
+           return await hubRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
         }
 
         public Task<Hub> InternalCreateAsync(Hub model)

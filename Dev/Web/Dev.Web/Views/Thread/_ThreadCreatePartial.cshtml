@@ -2,6 +2,7 @@
 @model CreateThreadModel
 
 @{
+    var hubs = (List<HubServiceModel>)this.ViewData["Hubs"];
 }
 
 <form asp-controller="Thread" asp-action="CreateConfirm" method="post" id="create-thread-form" class="w-50">
@@ -18,7 +19,7 @@
         <span asp-validation-for="@Model.Content" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <input id="model-tags" type="hidden" asp-for="@Model.TagsIds" hidden />
+        <input id="model-tags" type="hidden" asp-for="@Model.Tags" hidden />
         <label class="form-label fw-bold">Tags</label>
         <div class="form-tags-input">
             <div class="created-tags">
@@ -40,16 +41,16 @@
             <input class="community-selector-input" placeholder="Search communities..." />
         </div>
         <div class="community-selector-autocomplete">
-            @* @foreach (var community in communities) *@
-            @* { *@
-            @*     <div class="selector-community"> *@
-            @*         <span id="@community.Id" hidden></span> *@
-            @*         <div class="selected-community-picture"> *@
-            @*             <img src="@community.ThumbnailPhoto?.CloudUrl" width="35px" height="35px"> *@
-            @*         </div> *@
-            @*         <div class="selected-community-name">g/@community.Name</div> *@
-            @*     </div> *@
-            @* } *@
+            @foreach (var hub in hubs)
+            {
+                <div class="selector-community">
+                    <span id="@hub.Id" hidden></span>
+                    <div class="selected-community-picture">
+                        <img src="@hub.HubPhoto?.CloudUrl" width="35px" height="35px">
+                    </div>
+                    <div class="selected-community-name">d/@hub.Name</div>
+                </div>
+            }
         </div>
     </div>
     <button class="btn btn-secondary create-thread-submit-button" type="button">Post</button>
@@ -59,7 +60,7 @@
     const currentTags = [];
 
     document.querySelector('#create-thread-form .create-thread-submit-button').addEventListener('click', (e) => {
-        document.querySelector('#createThreadRealTextArea').value = document.querySelector('#createThreadTextEditor').innerHTML;
+        //document.querySelector('#createThreadRealTextArea').value = document.querySelector('#createThreadTextEditor').innerHTML;
         document.querySelector('#create-thread-form').submit();
     });
 
