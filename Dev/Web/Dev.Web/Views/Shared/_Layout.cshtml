@@ -1,4 +1,7 @@
-﻿c <!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<DevUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,14 +26,17 @@
                         <input class="form-control" placeholder="Search threads...">
                     </div>
                 </div>
-                <div id="actions" class="d-flex justify-content-around">
-                    <a href="/Thread/Create" id="post-thread-button">
-                        <img src="~/images/Create.svg" width="25px" height="25px">
-                    </a>
-                </div>
-                <div id="layout-profile">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div id="actions" class="d-flex justify-content-around">
+                        <a href="/Thread/Create" id="post-thread-button">
+                            <img src="~/images/Create.svg" width="25px" height="25px">
+                        </a>
+                    </div>
+                    <div id="layout-profile">
 
-                </div>
+                    </div>
+                }
                 <partial name="_LoginPartial" />
             </div>
         </header>

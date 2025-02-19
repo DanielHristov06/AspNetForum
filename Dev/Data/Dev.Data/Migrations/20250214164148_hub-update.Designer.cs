@@ -4,6 +4,7 @@ using Dev.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dev.Web.Data.Migrations
 {
     [DbContext(typeof(DevDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250214164148_hub-update")]
+    partial class hubupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,36 +24,6 @@ namespace Dev.Web.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AttachmentComment", b =>
-                {
-                    b.Property<string>("AttachmentsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CommentId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AttachmentsId", "CommentId");
-
-                    b.HasIndex("CommentId");
-
-                    b.ToTable("AttachmentComment");
-                });
-
-            modelBuilder.Entity("AttachmentDevThread", b =>
-                {
-                    b.Property<string>("AttachmentsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("DevThreadId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AttachmentsId", "DevThreadId");
-
-                    b.HasIndex("DevThreadId");
-
-                    b.ToTable("AttachmentDevThread");
-                });
 
             modelBuilder.Entity("Dev.Data.Models.Attachment", b =>
                 {
@@ -61,7 +34,12 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CommentId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
 
                     b.ToTable("Attachments");
                 });
@@ -659,34 +637,11 @@ namespace Dev.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AttachmentComment", b =>
+            modelBuilder.Entity("Dev.Data.Models.Attachment", b =>
                 {
-                    b.HasOne("Dev.Data.Models.Attachment", null)
-                        .WithMany()
-                        .HasForeignKey("AttachmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Dev.Data.Models.Comment", null)
-                        .WithMany()
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AttachmentDevThread", b =>
-                {
-                    b.HasOne("Dev.Data.Models.Attachment", null)
-                        .WithMany()
-                        .HasForeignKey("AttachmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Dev.Data.Models.DevThread", null)
-                        .WithMany()
-                        .HasForeignKey("DevThreadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Attachments")
+                        .HasForeignKey("CommentId");
                 });
 
             modelBuilder.Entity("Dev.Data.Models.Comment", b =>
@@ -1029,6 +984,8 @@ namespace Dev.Web.Data.Migrations
 
             modelBuilder.Entity("Dev.Data.Models.Comment", b =>
                 {
+                    b.Navigation("Attachments");
+
                     b.Navigation("Reactions");
 
                     b.Navigation("Replies");

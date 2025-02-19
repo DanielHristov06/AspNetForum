@@ -489,6 +489,15 @@ trix-toolbar .trix-button {
     border-radius: 25px;
 }
 
+.selector-community .selected-community-name{
+    z-index: 1000;
+}
+
+.selector-community .selected-community-picture {
+    z-index: 1000;
+}
+
+
 /* END CREATE THREAD / COMMUNITY STYLING */
 
 

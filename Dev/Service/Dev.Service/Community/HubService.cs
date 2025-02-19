@@ -4,61 +4,81 @@ using Microsoft.EntityFrameworkCore;
 using Dev.Data.Repositories;
 using Dev.Service.Mappings;
 
-namespace Dev.Service
+namespace Dev.Service.Community
 {
     public class HubService : IHubService
     {
-        private readonly HubRepository categoryRepository;
+        private readonly HubRepository hubRepository;
 
-        public HubService(HubRepository categoryRepository)
+        private readonly DevTagRepository devTagRepository;
+
+        public HubService(HubRepository hubRepository, DevTagRepository devTagRepository)
         {
-            this.categoryRepository = categoryRepository;
+            this.hubRepository = hubRepository;
+            this.devTagRepository = devTagRepository;
         }
 
         public async Task<HubServiceModel> CreateAsync(HubServiceModel model)
         {
-            Hub category = model.ToEntity();
+            Hub hub = model.ToEntity();
 
-            await this.categoryRepository.CreateAsync(category);
+            hub.Tags = hub.Tags.Select(async tag => {
+                return (await this.devTagRepository.CreateAsync(tag));
+            }).Select(t => t.Result).ToList();
 
-            return category.ToModel();
+            await hubRepository.CreateAsync(hub);
+
+            return hub.ToModel();
         }
 
         public async Task<HubServiceModel> DeleteAsync(string id)
         {
-            Hub category = await this.categoryRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
+            Hub hub = await hubRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
 
-            if (category == null)
+            if (hub == null)
             {
                 throw new NullReferenceException($"No category found with id - {id}.");
             }
 
-            await this.categoryRepository.DeleteAsync(category);
+            await hubRepository.DeleteAsync(hub);
 
-            return category.ToModel();
+            return hub.ToModel();
         }
 
         public IQueryable<HubServiceModel> GetAll()
         {
-            return this.categoryRepository.GetAll()
+            return hubRepository.GetAll()
+                .Include(c => c.Tags)
                 .Include(c => c.CreatedBy)
                 .Include(c => c.UpdatedBy)
                 .Include(c => c.DeletedBy)
+                .Include(c => c.HubPhoto)
+                .Include(c => c.BannerPhoto)
                 .Select(c => c.ToModel());
         }
 
         public async Task<HubServiceModel> GetByIdAsync(string id)
         {
-            return (await this.categoryRepository.GetAll()
+            return (await hubRepository.GetAll()
                 .Include(c => c.CreatedBy)
                 .Include(c => c.UpdatedBy)
                 .Include(c => c.DeletedBy)
                 .SingleOrDefaultAsync(c => c.Id == id))?.ToModel();
         }
 
+        public async Task<Hub> InternalGetByIdAsync(string id)
+        {
+           return await hubRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
+        }
+
+        public Task<Hub> InternalCreateAsync(Hub model)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<HubServiceModel> UpdateAsync(string id, HubServiceModel model)
         {
-            Hub category = await this.categoryRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
+            Hub category = await hubRepository.GetAll().SingleOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
             {
@@ -70,7 +90,7 @@ namespace Dev.Service
             category.HubPhoto = model.HubPhoto != null ? model.HubPhoto.ToEntity() : category.HubPhoto;
             category.BannerPhoto = model.HubPhoto != null ? model.BannerPhoto.ToEntity() : category.BannerPhoto;
 
-            await this.categoryRepository.UpdateAsync(category);
+            await hubRepository.UpdateAsync(category);
 
             return category.ToModel();
         }

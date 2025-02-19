@@ -43,21 +43,35 @@ namespace Dev.Data
             builder.ConfigureMetadataEntity<DevTag>();
 
             builder.Entity<Hub>()
-                .HasOne(gc => gc.HubPhoto)
+                .HasOne(h => h.HubPhoto)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Hub>()
-                .HasOne(gc => gc.BannerPhoto)
+                .HasOne(h => h.BannerPhoto)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Hub>()
-                .HasMany(gc => gc.Tags)
+                .HasMany(h => h.Tags)
                 .WithMany();
 
             builder.Entity<DevThread>()
-                .HasMany(gc => gc.Tags)
+                .HasMany(dt => dt.Tags)
+                .WithMany();
+
+            builder.Entity<Comment>()
+                .HasMany(c => c.Attachments)
+                .WithMany();
+
+            builder.Entity<Hub>()
+                .HasOne(h => h.HubPhoto);
+
+            builder.Entity<Hub>()
+                .HasOne(h => h.BannerPhoto);
+
+            builder.Entity<DevThread>()
+                .HasMany(dt => dt.Attachments)
                 .WithMany();
 
 

@@ -23,8 +23,8 @@ namespace Dev.Service.Mappings
                 UpdatedOn = entity.UpdatedOn,
                 DeletedOn = entity.DeletedOn,
                 CreatedBy = entity.CreatedBy.ToModel(),
-                UpdatedBy = entity.UpdatedBy.ToModel(),
-                DeletedBy = entity.DeletedBy.ToModel()
+                UpdatedBy = entity.UpdatedBy?.ToModel(),
+                DeletedBy = entity.DeletedBy?.ToModel()
             };
         }
     }
