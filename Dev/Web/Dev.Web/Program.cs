@@ -2,9 +2,11 @@ using Dev.Data;
 using Dev.Data.Models;
 using Dev.Data.Repositories;
 using Dev.Service.Cloud;
+using Dev.Service.Comment;
 using Dev.Service.Community;
 using Dev.Service.Tag;
 using Dev.Service.Thread;
+using Dev.Service.User;
 using Dev.Web.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +22,16 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<HubRepository>();
 builder.Services.AddTransient<DevTagRepository>();
 builder.Services.AddTransient<DevThreadRepository>();
- 
+builder.Services.AddTransient<CommentRepository>();
+builder.Services.AddTransient<ReactionRepository>();
+
 builder.Services.AddTransient<IHubService, HubService>();
 builder.Services.AddTransient<IDevTagService, DevTagService>();
 builder.Services.AddTransient<IThreadService, ThreadService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<IUserContextService, UserContextService>();
 builder.Services.AddTransient<ICloudinaryService, CloudinaryService>();
+
 
 builder.Services
     .AddDefaultIdentity<DevUser>(options => options.SignIn.RequireConfirmedAccount = false)

@@ -8,5 +8,9 @@
 
         public HubServiceModel Hub { get; set; }
         public List<DevTagServiceModel> Tags { get; set; }
+
+        public List<UserThreadReactionServiceModel> Reactions { get; set; }
+
+        public List<UserThreadCommentServiceModel> Comments { get; set; }
     }
 }

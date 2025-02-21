@@ -901,7 +901,7 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Dev.Data.Models.DevThread", "Thread")
-                        .WithMany("Comment")
+                        .WithMany("Comments")
                         .HasForeignKey("ThreadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1036,7 +1036,7 @@ namespace Dev.Web.Data.Migrations
 
             modelBuilder.Entity("Dev.Data.Models.DevThread", b =>
                 {
-                    b.Navigation("Comment");
+                    b.Navigation("Comments");
 
                     b.Navigation("Reactions");
                 });

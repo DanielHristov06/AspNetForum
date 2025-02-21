@@ -1,28 +1,31 @@
 ﻿using Dev.Data.Models;
 using Dev.Service.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Dev.Service.Mappings
 {
-    public static class DevRoleMappings
+    public static class ReactionMappings
     {
-        public static DevRole ToEntity(this DevRoleServiceModel model)
+        public static Reaction ToEntity(this ReactionServiceModel model)
         {
-            return new DevRole
+            return new Reaction
             {
                 Label = model.Label,
-                Color = model.Color,
-                Authority = model.Authority
+                Emote = model.Emote.ToEntity()
             };
         }
 
-        public static DevRoleServiceModel ToModel(this DevRole entity)
+        public static ReactionServiceModel ToModel(this Reaction entity)
         {
-            return new DevRoleServiceModel
+            return new ReactionServiceModel
             {
                 Id = entity.Id,
                 Label = entity.Label,
-                Color = entity.Color,
-                Authority = entity.Authority,
+                Emote = entity.Emote?.ToModel(),
                 CreatedOn = entity.CreatedOn,
                 UpdatedOn = entity.UpdatedOn,
                 DeletedOn = entity.DeletedOn,

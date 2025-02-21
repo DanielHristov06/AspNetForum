@@ -5,7 +5,7 @@
 namespace Dev.Web.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class attachments : Migration
+    public partial class dsfs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
