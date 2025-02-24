@@ -25,6 +25,8 @@ namespace Dev.Service.Mappings
                 Content = entity.Content,
                 Hub = entity.Hub?.ToModel(),
                 Tags = entity.Tags?.Select(t => t.ToModel()).ToList(),
+                Reactions = entity.Reactions?.Select(reaction => reaction.ToModel(UserThreadReactionMappingsContext.Thread)).ToList(),
+                Comments = entity.Comments?.Select(comment => comment.ToModel(UserThreadCommentMappingsContext.Thread)).ToList(),
                 CreatedOn = entity.CreatedOn,
                 UpdatedOn = entity.UpdatedOn,
                 DeletedOn = entity.DeletedOn,

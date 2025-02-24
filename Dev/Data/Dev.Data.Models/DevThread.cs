@@ -13,6 +13,6 @@
 
         public List<UserThreadReaction> Reactions { get; set; }
 
-        public List<UserThreadComment> Comment { get; set; }
+        public List<UserThreadComment> Comments { get; set; }
     }
 }

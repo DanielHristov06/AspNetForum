@@ -1,4 +1,4 @@
-﻿ using Dev.Data.Models;
+﻿using Dev.Data.Models;
 using Dev.Service.Models;
 
 namespace Dev.Service.Mappings

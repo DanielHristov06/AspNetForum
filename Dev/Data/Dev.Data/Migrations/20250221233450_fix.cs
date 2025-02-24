@@ -5,7 +5,7 @@
 namespace Dev.Web.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class something : Migration
+    public partial class fix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

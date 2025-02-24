@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dev.Web.Data.Migrations
 {
     [DbContext(typeof(DevDbContext))]
-    [Migration("20250216153415_something")]
-    partial class something
+    [Migration("20250221233450_fix")]
+    partial class fix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,36 @@ namespace Dev.Web.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AttachmentComment", b =>
+                {
+                    b.Property<string>("AttachmentsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CommentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AttachmentsId", "CommentId");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("AttachmentComment");
+                });
+
+            modelBuilder.Entity("AttachmentDevThread", b =>
+                {
+                    b.Property<string>("AttachmentsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DevThreadId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AttachmentsId", "DevThreadId");
+
+                    b.HasIndex("DevThreadId");
+
+                    b.ToTable("AttachmentDevThread");
+                });
+
             modelBuilder.Entity("Dev.Data.Models.Attachment", b =>
                 {
                     b.Property<string>("Id")
@@ -34,12 +64,7 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CommentId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
 
                     b.ToTable("Attachments");
                 });
@@ -637,11 +662,34 @@ namespace Dev.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Dev.Data.Models.Attachment", b =>
+            modelBuilder.Entity("AttachmentComment", b =>
                 {
+                    b.HasOne("Dev.Data.Models.Attachment", null)
+                        .WithMany()
+                        .HasForeignKey("AttachmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Dev.Data.Models.Comment", null)
-                        .WithMany("Attachments")
-                        .HasForeignKey("CommentId");
+                        .WithMany()
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AttachmentDevThread", b =>
+                {
+                    b.HasOne("Dev.Data.Models.Attachment", null)
+                        .WithMany()
+                        .HasForeignKey("AttachmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dev.Data.Models.DevThread", null)
+                        .WithMany()
+                        .HasForeignKey("DevThreadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Dev.Data.Models.Comment", b =>
@@ -856,7 +904,7 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Dev.Data.Models.DevThread", "Thread")
-                        .WithMany("Comment")
+                        .WithMany("Comments")
                         .HasForeignKey("ThreadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -984,8 +1032,6 @@ namespace Dev.Web.Data.Migrations
 
             modelBuilder.Entity("Dev.Data.Models.Comment", b =>
                 {
-                    b.Navigation("Attachments");
-
                     b.Navigation("Reactions");
 
                     b.Navigation("Replies");
@@ -993,7 +1039,7 @@ namespace Dev.Web.Data.Migrations
 
             modelBuilder.Entity("Dev.Data.Models.DevThread", b =>
                 {
-                    b.Navigation("Comment");
+                    b.Navigation("Comments");
 
                     b.Navigation("Reactions");
                 });

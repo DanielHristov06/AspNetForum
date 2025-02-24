@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dev.Web.Data.Migrations
 {
     [DbContext(typeof(DevDbContext))]
-    [Migration("20250219141238_attachments")]
-    partial class attachments
+    [Migration("20250221202053_dsfvd")]
+    partial class dsfvd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -904,7 +904,7 @@ namespace Dev.Web.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Dev.Data.Models.DevThread", "Thread")
-                        .WithMany("Comment")
+                        .WithMany("Comments")
                         .HasForeignKey("ThreadId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1039,7 +1039,7 @@ namespace Dev.Web.Data.Migrations
 
             modelBuilder.Entity("Dev.Data.Models.DevThread", b =>
                 {
-                    b.Navigation("Comment");
+                    b.Navigation("Comments");
 
                     b.Navigation("Reactions");
                 });
