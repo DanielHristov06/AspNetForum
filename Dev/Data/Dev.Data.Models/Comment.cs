@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dev.Data.Models
+﻿namespace Dev.Data.Models
 {
     public class Comment : MetadataBaseEntity
     {
@@ -15,5 +9,7 @@ namespace Dev.Data.Models
         public List<UserCommentReaction> Reactions { get; set; }
 
         public List<Comment> Replies { get; set; }
+
+        public Comment? Parent { get; set; }
     }
 }

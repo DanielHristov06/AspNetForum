@@ -64,6 +64,11 @@ namespace Dev.Data
                 .HasMany(c => c.Attachments)
                 .WithMany();
 
+            builder.Entity<Comment>()
+                .HasMany(c => c.Replies)
+                .WithOne(c => c.Parent)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<Hub>()
                 .HasOne(h => h.HubPhoto);
 

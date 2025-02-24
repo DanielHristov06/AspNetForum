@@ -1,9 +1,7 @@
 ﻿using Dev.Data.Models;
 using Dev.Data.Repositories;
-using Dev.Service.Community;
 using Dev.Service.Mappings;
 using Dev.Service.Models;
-using Dev.Service.Tag;
 using Dev.Service.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,15 +59,14 @@ namespace Dev.Service.Thread
 
             if (parentCommentId != null)
             {
-                Data.Models.Comment? parent = await commentRepository.GetAll()
-                    .SingleOrDefaultAsync(c => c.Id == parentCommentId);
+                Data.Models.Comment? parent = await commentRepository.GetAll().SingleOrDefaultAsync(c => c.Id == parentCommentId);
 
                 if (parent == null)
                 {
                     throw new ArgumentException("Parent comment not found for id - " + parentCommentId);
                 }
 
-                //entity.Parent = parent;
+                entity.Parent = parent;
             }
 
             entity = await this.commentRepository.CreateAsync(entity);

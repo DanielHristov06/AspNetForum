@@ -1,5 +1,4 @@
 ﻿using Dev.Data.Models;
-using Dev.Web.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dev.Data.Repositories

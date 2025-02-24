@@ -32,7 +32,6 @@ builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<IUserContextService, UserContextService>();
 builder.Services.AddTransient<ICloudinaryService, CloudinaryService>();
 
-
 builder.Services
     .AddDefaultIdentity<DevUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()

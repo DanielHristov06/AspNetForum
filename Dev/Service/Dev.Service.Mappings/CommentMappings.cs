@@ -1,10 +1,5 @@
 ﻿using Dev.Data.Models;
 using Dev.Service.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dev.Service.Mappings
 {
@@ -36,7 +31,7 @@ namespace Dev.Service.Mappings
                 Attachments = entity.Attachments?.Select(attachment => attachment.ToModel()).ToList(),
                 Reactions = ShouldMapReactions(context) ? entity.Reactions?.Select(reaction => reaction.ToModel(UserCommentReactionMappingsContext.Comment)).ToList() : null,
                 Replies = ShouldMapReplies(context) ? entity.Replies?.Select(reply => reply.ToModel(CommentMappingsContext.Parent)).ToList() : null,
-                //Parent = ShouldMapParent(context) ? entity.Parent?.ToModel(CommentMappingsContext.Reply) : null,
+                Parent = ShouldMapParent(context) ? entity.Parent?.ToModel(CommentMappingsContext.Reply) : null,
                 CreatedOn = entity.CreatedOn,
                 UpdatedOn = entity.UpdatedOn,
                 DeletedOn = entity.DeletedOn,

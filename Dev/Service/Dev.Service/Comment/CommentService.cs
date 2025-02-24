@@ -63,7 +63,7 @@ namespace Dev.Service.Comment
             DevThread thread = await this.threadRepository.GetAll()
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.Comment)
-                        //.ThenInclude(c => c.Parent)
+                        .ThenInclude(c => c.Parent)
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.Comment)
                         .ThenInclude(c => c.Replies)
@@ -80,7 +80,7 @@ namespace Dev.Service.Comment
             }
 
             return thread.Comments
-                //.Where(c => c.Comment.Parent == null)
+                .Where(c => c.Comment.Parent == null)
                 .Select(c => c.Comment.ToModel(CommentMappingsContext.Parent))
                 .AsQueryable();
         }
@@ -134,7 +134,9 @@ namespace Dev.Service.Comment
 
         public IQueryable<CommentServiceModel> GetAllByParentId(string parentId)
         {
-            throw new NotImplementedException();
+            return this.InternalGetAll()
+                .Where(c => c.Parent.Id == parentId)
+                .Select(c => c.ToModel(CommentMappingsContext.Parent));
         }
     }
 }
