@@ -49,6 +49,15 @@ trix-toolbar .trix-button {
     color: #FFFFFF;
 }
 
+.admin-sidebar {
+    margin-top: 5%;
+}
+
+.admin-sidebar-separator {
+    width: 88.5%;
+    margin: 0;
+}
+
 .sidebar-navigation-category {
     cursor: pointer;
 }
@@ -121,6 +130,11 @@ trix-toolbar .trix-button {
     color: #A9A9A9;
 }
 
+    .sidebar-other-link a {
+        text-decoration: none;
+        color: #A9A9A9;
+    }
+
 .sidebar-bottom {
     width: 100%;
     position: absolute;
@@ -150,9 +164,6 @@ trix-toolbar .trix-button {
 }
 
 #topbar-logo-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 10%;
 }
 
@@ -160,21 +171,19 @@ trix-toolbar .trix-button {
     width: 90%;
 }
 
-#topbar-signin {
-    margin-left: auto;
-}
-
-#topbar-signin a {
-    padding: 8px 15px;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
 /* END TOP BAR STYLING */
 
 /* LOGO STYLING */
 #logo {
     position: fixed;
+    left: 3.5%;
+    height: 5vh;
+    color: #FFFFFF;
+}
+
+#admin-logo {
+    position: fixed;
+    left: 3%;
     height: 5vh;
     color: #FFFFFF;
 }
@@ -207,26 +216,6 @@ trix-toolbar .trix-button {
         }
 
 /* END SEARCH STYLING */
-
-/* LAYOUT ACTIONS STYLING */
-
-#post-thread-button{
-    border-radius: 25px;
-    padding: 5px;
-    border: 3px solid #FFFFFF;
-}
-
-#post-thread-button img{
-    margin-bottom: 10px;
-}
-
-#layout-profile {
-    border-radius: 25px;
-    padding: 5px;
-    border: 3px solid #FFFFFF;
-}
-
-/* END LAYOUT ACTIONS STYLING */
 
 /* LAYOUT ACTIONS STYLING */
 
@@ -489,15 +478,6 @@ trix-toolbar .trix-button {
     border-radius: 25px;
 }
 
-.selector-community .selected-community-name{
-    z-index: 1000;
-}
-
-.selector-community .selected-community-picture {
-    z-index: 1000;
-}
-
-
 /* END CREATE THREAD / COMMUNITY STYLING */
 
 
@@ -633,24 +613,93 @@ trix-toolbar .trix-button {
 
 /* END DETAILS THREAD STYLING */
 
-/* CREATE THREAD STYLING */
 
-#create-thread-form{
-    padding: 30px;
+/* REACTIONS STYLING */
+
+.create-reaction-button {
+    margin-top: 10px;
+    font-size: 18px !important;
 }
 
-.created-tags{
+.reactions-container {
+    top: 10px;
     position: relative;
-    bottom: 37px;
-    left: 3px;
+    width: fit-content;
+    overflow-x: auto;
+    border: 2px solid white;
+    border-radius: 50px;
+    padding: 10px;
 }
 
-.created-tag{
-    padding: 5px 10px 5px 10px;
-    border-radius: 25px;
-    background-color: blueviolet;
-    color: azure;
-    font-weight: bold;
+.reaction-emote {
+    border: 2px solid white;
+    border-radius: 50px;
+    padding: 10px;
 }
 
-/* END CREATE THREAD STYLING */
+    .reaction-emote:not(:first-child) {
+        margin-left: 10px;
+    }
+
+.user-reactions-container {
+    margin: 10px 0 20px 0;
+    width: fit-content;
+}
+
+.user-reaction {
+    padding: 10px;
+    border-radius: 50px;
+    border: 2px solid #FFFFFF;
+}
+
+    .user-reaction:not(:first-child) {
+        margin-left: 10px;
+    }
+
+/* END REACTIONS STYLING */
+
+/* COMMUNITY DETAILS STYLING */
+
+.community-details {
+    padding: 25px;
+}
+
+    .community-details header {
+    }
+
+        .community-details header .community-details-banner {
+            max-width: 100%;
+            width: 100%;
+            max-height: 300px;
+        }
+
+            .community-details header .community-details-banner img {
+                width: 100%;
+                max-height: 150px;
+                border-radius: 25px 25px 0 0;
+            }
+
+        .community-details header .community-details-info {
+            display: flex;
+            position: relative;
+            top: -50px;
+            left: 25px;
+        }
+
+            .community-details header .community-details-info img {
+                width: 100px;
+                height: 100px;
+                border-radius: 50px;
+                border: 5px solid #A9A9A9;
+                box-shadow: 2px 2px 2px black, 0 0 2px black, 0 0 1px black;
+            }
+
+            .community-details header .community-details-info div {
+                font-weight: bold;
+                font-size: 32px;
+                margin-top: 25px;
+                margin-left: 25px;
+                text-shadow: 1px 1px 2px black, 0 0 1px black, 0 0 0.2px black;
+            }
+
+/* END COMMUNITY DETAILS STYLING */

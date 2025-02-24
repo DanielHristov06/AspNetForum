@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Dev.Service.Community;
+using Dev.Service.Reaction;
 using Dev.Service.Thread;
 using Dev.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,18 +9,20 @@ namespace Dev.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IThreadService _threadService;
+        private readonly IThreadService _ThreadService;
 
-        public HomeController(ILogger<HomeController> logger, IThreadService threadService)
+        private readonly IReactionService _reactionService;
+
+        public HomeController(IThreadService ThreadService, IReactionService reactionService)
         {
-            _logger = logger;
-            _threadService = threadService;
+            _ThreadService = ThreadService;
+            _reactionService = reactionService;
         }
 
         public IActionResult Index()
         {
-            ViewData["Threads"] = _threadService.GetAll().ToList();
+            this.ViewData["Threads"] = this._ThreadService.GetAll().ToList();
+            this.ViewData["Reactions"] = this._reactionService.GetAll().ToList();
             return View();
         }
 

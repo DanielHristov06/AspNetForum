@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<DevUser> SignInManager
 
 <!DOCTYPE html>
@@ -17,9 +17,11 @@
 <body>
     <div class="container-fluid ps-4">
         <header id="topbar" class="mt-3">
-            <div id="topbar-logo-container">
+            <div id="topbar-logo-container" class="d-flex justify-content-center">
                 <div id="logo">
-                    <a href="/">logologologo</a>
+                    <a href="/">
+                        <img width="100px" height="60px" src="~/images/26_t.jpg" />
+                    </a>
                 </div>
             </div>
             <div id="topbar-actions-container" class="d-flex justify-content-between">
@@ -30,16 +32,15 @@
                 </div>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <div id="actions" class="d-flex justify-content-around">
+                    <div id="actions" class="d-flex justify-content-end">
                         <a href="/Thread/Create" id="post-thread-button">
-                            <img src="~/images/Create.svg" width="25px" height="25px">
+                            <img src="~/images/post.svg" width="25px" height="25px">
                         </a>
-                    </div>
-                    <div id="layout-profile">
 
+                        <div id="layout-profile">
+                        </div>
                     </div>
                 }
-                <partial name="_LoginPartial" />
             </div>
         </header>
         <main class="d-flex justify-content-start">
@@ -249,7 +250,7 @@
                 </div>
                 <!-- Navigation items (about / etc.) -->
 
-                <!--partial name="_LoginPartial" /--> <!--shit was here for the sign in button on the side bar-->
+                <partial name="_LoginPartial" />
             </aside>
             <main id="main-content">
                 @RenderBody()
