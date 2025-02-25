@@ -12,6 +12,7 @@ namespace Dev.Service.Mappings
                 Title = model.Title,
                 Content = model.Content,
                 Hub = model.Hub?.ToEntity(),
+                Attachments = model.Attachments.Select(a => a.ToEntity()).ToList(),
                 Tags = model.Tags?.Select(t => t.ToEntity()).ToList()
             };
         }
@@ -25,6 +26,7 @@ namespace Dev.Service.Mappings
                 Content = entity.Content,
                 Hub = entity.Hub?.ToModel(),
                 Tags = entity.Tags?.Select(t => t.ToModel()).ToList(),
+                Attachments = entity.Attachments?.Select(attachment => attachment.ToModel()).ToList(),
                 Reactions = entity.Reactions?.Select(reaction => reaction.ToModel(UserThreadReactionMappingsContext.Thread)).ToList(),
                 Comments = entity.Comments?.Select(comment => comment.ToModel(UserThreadCommentMappingsContext.Thread)).ToList(),
                 CreatedOn = entity.CreatedOn,

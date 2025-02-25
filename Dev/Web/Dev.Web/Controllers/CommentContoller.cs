@@ -11,7 +11,7 @@ namespace Dev.Web.Controllers
 
             public CommentController(ICommentService commentService)
             {
-                this._commentService = commentService;
+                _commentService = commentService;
             }
 
             [HttpPost]
@@ -20,7 +20,7 @@ namespace Dev.Web.Controllers
                 [FromQuery] string commentId,
                 [FromQuery] string reactionId)
             {
-                var result = await this._commentService.CreateReactionOnComment(commentId, reactionId);
+                var result = await _commentService.CreateReactionOnComment(commentId, reactionId);
 
                 return Ok(result);
             }

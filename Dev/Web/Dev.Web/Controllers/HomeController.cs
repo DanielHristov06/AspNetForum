@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Dev.Service.Community;
 using Dev.Service.Reaction;
 using Dev.Service.Thread;
 using Dev.Web.Models;
@@ -21,8 +20,8 @@ namespace Dev.Web.Controllers
 
         public IActionResult Index()
         {
-            this.ViewData["Threads"] = this._ThreadService.GetAll().ToList();
-            this.ViewData["Reactions"] = this._reactionService.GetAll().ToList();
+            ViewData["Threads"] = _ThreadService.GetAll().ToList();
+            ViewData["Reactions"] = _reactionService.GetAll().ToList();
             return View();
         }
 

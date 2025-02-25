@@ -47,23 +47,12 @@ namespace Dev.Service.Community
 
         public IQueryable<HubServiceModel> GetAll()
         {
-            return hubRepository.GetAll()
-                .Include(c => c.Tags)
-                .Include(c => c.CreatedBy)
-                .Include(c => c.UpdatedBy)
-                .Include(c => c.DeletedBy)
-                .Include(c => c.HubPhoto)
-                .Include(c => c.BannerPhoto)
-                .Select(c => c.ToModel());
+            return InternalGetAll().Select(gc => gc.ToModel());
         }
 
         public async Task<HubServiceModel> GetByIdAsync(string id)
         {
-            return (await hubRepository.GetAll()
-                .Include(c => c.CreatedBy)
-                .Include(c => c.UpdatedBy)
-                .Include(c => c.DeletedBy)
-                .SingleOrDefaultAsync(c => c.Id == id))?.ToModel();
+            return (await InternalGetAll().SingleOrDefaultAsync(c => c.Id == id))?.ToModel();
         }
 
         public async Task<Hub> InternalGetByIdAsync(string id)
@@ -93,6 +82,17 @@ namespace Dev.Service.Community
             await hubRepository.UpdateAsync(category);
 
             return category.ToModel();
+        }
+
+        private IQueryable<Hub> InternalGetAll()
+        {
+            return hubRepository.GetAll()
+                .Include(c => c.Tags)
+                .Include(c => c.HubPhoto)
+                .Include(c => c.BannerPhoto)
+                .Include(c => c.CreatedBy)
+                .Include(c => c.UpdatedBy)
+                .Include(c => c.DeletedBy);
         }
     }
 }
