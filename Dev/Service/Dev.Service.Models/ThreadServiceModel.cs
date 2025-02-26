@@ -6,6 +6,8 @@
 
         public string Content { get; set; }
 
+        public List<AttachmentServiceModel> Attachments { get; set; }
+
         public HubServiceModel Hub { get; set; }
         public List<DevTagServiceModel> Tags { get; set; }
 

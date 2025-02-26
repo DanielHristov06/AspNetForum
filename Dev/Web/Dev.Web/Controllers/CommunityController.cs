@@ -1,6 +1,8 @@
 ﻿using Dev.Service.Cloud;
 using Dev.Service.Community;
 using Dev.Service.Models;
+using Dev.Service.Reaction;
+using Dev.Service.Thread;
 using Dev.Web.Models.Community;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +11,15 @@ namespace Dev.Web.Controllers
     public class CommunityController : Controller
     {
         private readonly IHubService HubService;
+        private readonly IThreadService ThreadService;
+        private readonly IReactionService ReactionService;
         private readonly ICloudinaryService CloudinaryService;
 
-        public CommunityController(IHubService hubService, ICloudinaryService cloudinaryService)
+        public CommunityController(IHubService hubService, IThreadService threadService, IReactionService reactionService, ICloudinaryService cloudinaryService)
         {
             HubService = hubService;
+            ThreadService = threadService;
+            ReactionService = reactionService;
             CloudinaryService = cloudinaryService;
         }
             
@@ -40,6 +46,14 @@ namespace Dev.Web.Controllers
 
 
             return Redirect("/");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string communityId)
+        {
+            ViewData["Threads"] = ThreadService.GetAllByCommunityId(communityId).ToList();
+            ViewData["Reactions"] = ReactionService.GetAll().ToList();
+            return View(await HubService.GetByIdAsync(communityId));
         }
 
         private async Task<string> UploadPhoto(IFormFile photo)

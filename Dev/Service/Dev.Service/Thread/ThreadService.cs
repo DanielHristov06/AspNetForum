@@ -59,7 +59,8 @@ namespace Dev.Service.Thread
 
             if (parentCommentId != null)
             {
-                Data.Models.Comment? parent = await commentRepository.GetAll().SingleOrDefaultAsync(c => c.Id == parentCommentId);
+                Data.Models.Comment? parent = await commentRepository.GetAll()
+                    .SingleOrDefaultAsync(c => c.Id == parentCommentId);
 
                 if (parent == null)
                 {
@@ -95,12 +96,12 @@ namespace Dev.Service.Thread
             {
                 Reaction = reaction,
                 Thread = reactionThread,
-                User = (await this.userContextService.GetCurrentUserAsync())
+                User = (await userContextService.GetCurrentUserAsync())
             };
 
             reactionThread.Reactions.Add(utr);
 
-            await this.devThreadRepository.UpdateAsync(reactionThread);
+            await devThreadRepository.UpdateAsync(reactionThread);
 
             return utr.ToModel(UserThreadReactionMappingsContext.User);
         }
@@ -112,18 +113,18 @@ namespace Dev.Service.Thread
 
         public IQueryable<ThreadServiceModel> GetAll()
         {
-            return this.InternalGetAll()
+            return InternalGetAll()
                 .Select(t => t.ToModel());
         }
 
         public IQueryable<ThreadServiceModel> GetAllByCommunityId(string communityId)
         {
-            return this.InternalGetAll().Where(t => t.Hub.Id == communityId).Select(t => t.ToModel());
+            return InternalGetAll().Where(t => t.Hub.Id == communityId).Select(t => t.ToModel());
         }
 
         public async Task<ThreadServiceModel> GetByIdAsync(string id)
         {
-            return (await this.InternalGetAll().SingleOrDefaultAsync(thread => thread.Id == id))?.ToModel();
+            return (await InternalGetAll().SingleOrDefaultAsync(thread => thread.Id == id))?.ToModel();
         }
 
         public Task<ThreadServiceModel> UpdateAsync(string id, ThreadServiceModel model)
@@ -133,7 +134,7 @@ namespace Dev.Service.Thread
 
         private async Task<DevThread> InternalGetByIdAsync(string id)
         {
-            return await this.InternalGetAll().SingleOrDefaultAsync(thread => thread.Id == id);
+            return await InternalGetAll().SingleOrDefaultAsync(thread => thread.Id == id);
         }
 
         private IQueryable<DevThread> InternalGetAll()
@@ -141,7 +142,7 @@ namespace Dev.Service.Thread
             return devThreadRepository.GetAll()
                 .Include(t => t.Tags)
                 .Include(t => t.Hub)
-                    //.ThenInclude(c => c.ThumbnailPhoto)
+                    .ThenInclude(c => c.HubPhoto)
                 .Include(t => t.Reactions)
                     .ThenInclude(utr => utr.Reaction)
                         .ThenInclude(r => r.Emote)

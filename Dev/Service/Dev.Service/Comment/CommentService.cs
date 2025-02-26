@@ -10,11 +10,8 @@ namespace Dev.Service.Comment
     public class CommentService : ICommentService
     {
         private readonly CommentRepository commentRepository;
-
         private readonly DevThreadRepository threadRepository;
-
         private readonly ReactionRepository reactionRepository;
-
         private readonly IUserContextService userContextService;
 
         public CommentService(
@@ -33,7 +30,7 @@ namespace Dev.Service.Comment
         {
             Data.Models.Comment entity = model.ToEntity();
 
-            return (await this.commentRepository.CreateAsync(entity)).ToModel(CommentMappingsContext.Reaction);
+            return (await commentRepository.CreateAsync(entity)).ToModel(CommentMappingsContext.Reaction);
         }
 
         public Task<CommentServiceModel> DeleteAsync(string id)
@@ -43,15 +40,15 @@ namespace Dev.Service.Comment
 
         public IQueryable<CommentServiceModel> GetAll()
         {
-            return this.InternalGetAll().Select(c => c.ToModel(CommentMappingsContext.User));
+            return InternalGetAll().Select(c => c.ToModel(CommentMappingsContext.User));
         }
 
-        //public IQueryable<CommentServiceModel> GetAllByParentId(string parentId)
-        //{
-        //    return this.InternalGetAll()
-        //        .Where(c => c.Parent.Id == parentId)
-        //        .Select(c => c.ToModel(CommentMappingsContext.Parent));
-        //}
+        public IQueryable<CommentServiceModel> GetAllByParentId(string parentId)
+        {
+            return InternalGetAll()
+                .Where(c => c.Parent.Id == parentId)
+                .Select(c => c.ToModel(CommentMappingsContext.Parent));
+        }
 
         public Task<CommentServiceModel> GetByIdAsync(string id)
         {
@@ -60,7 +57,7 @@ namespace Dev.Service.Comment
 
         public async Task<IQueryable<CommentServiceModel>> GetAllByThreadId(string threadId)
         {
-            DevThread thread = await this.threadRepository.GetAll()
+            DevThread thread = await threadRepository.GetAll()
                 .Include(t => t.Comments)
                     .ThenInclude(c => c.Comment)
                         .ThenInclude(c => c.Parent)
@@ -92,7 +89,7 @@ namespace Dev.Service.Comment
 
         public async Task<UserCommentReactionServiceModel> CreateReactionOnComment(string commentId, string reactionId)
         {
-            Data.Models.Comment reactionComment = await this.InternalGetByIdAsync(commentId);
+            Data.Models.Comment reactionComment = await InternalGetByIdAsync(commentId);
             Data.Models.Reaction reaction = await reactionRepository.GetAll()
                     .SingleOrDefaultAsync(r => r.Id == reactionId);
 
@@ -100,19 +97,19 @@ namespace Dev.Service.Comment
             {
                 Reaction = reaction,
                 Comment = reactionComment,
-                User = (await this.userContextService.GetCurrentUserAsync())
+                User = (await userContextService.GetCurrentUserAsync())
             };
 
             reactionComment.Reactions.Add(ucr);
 
-            await this.commentRepository.UpdateAsync(reactionComment);
+            await commentRepository.UpdateAsync(reactionComment);
 
             return ucr.ToModel(UserCommentReactionMappingsContext.User);
         }
 
         public async Task<Data.Models.Comment> InternalGetByIdAsync(string id)
         {
-            return await this.InternalGetAll().SingleOrDefaultAsync(c => c.Id == id);
+            return await InternalGetAll().SingleOrDefaultAsync(c => c.Id == id);
         }
 
         private IQueryable<Data.Models.Comment> InternalGetAll()
@@ -130,13 +127,6 @@ namespace Dev.Service.Comment
         public Task<Data.Models.Comment> InternalCreateAsync(Data.Models.Comment model)
         {
             throw new NotImplementedException();
-        }
-
-        public IQueryable<CommentServiceModel> GetAllByParentId(string parentId)
-        {
-            return this.InternalGetAll()
-                .Where(c => c.Parent.Id == parentId)
-                .Select(c => c.ToModel(CommentMappingsContext.Parent));
         }
     }
 }

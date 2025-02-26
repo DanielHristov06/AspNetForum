@@ -1,4 +1,5 @@
 ﻿using Dev.Web.Models.Utilities.Binding;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dev.Web.Models.Thread
@@ -12,5 +13,7 @@ namespace Dev.Web.Models.Thread
         [BindProperty(BinderType = typeof(TagsModelBinder))]
         public List<string> Tags { get; set; }
         public List<string> TagsIds { get; set; }
+
+        public List<IFormFile> Attachments { get; set; } = new List<IFormFile>();
     }
 }
