@@ -3,24 +3,24 @@
 <div class="page-thread d-flex flex-column">
     <span id="@Model.Id" class="thread-id" hidden></span>
     <div class="page-thread-attachment-container" hidden>
-        @* @foreach (var item in Model.Attachments) *@
-        @* { *@
-        @*     var itemCloudUrl = item.CloudUrl; *@
-        @*     var itemCloudUrlSplit = itemCloudUrl.Split(":"); *@
-        @*     var itemFileName = itemCloudUrlSplit[itemCloudUrlSplit.Length - 1]; *@
+        @foreach (var item in Model.Attachments)
+        {
+            var itemCloudUrl = item.CloudUrl;
+            var itemCloudUrlSplit = itemCloudUrl.Split(":");
+            var itemFileName = itemCloudUrlSplit[itemCloudUrlSplit.Length - 1];
 
-        @*     <span data-file-name="@itemFileName" data-cloud-url="@itemCloudUrl" hidden></span> *@
-        @* } *@
+            <span data-file-name="@itemFileName" data-cloud-url="@itemCloudUrl" hidden></span>
+        }
     </div>
     <header class="page-thread-heading d-flex justify-content-start">
         <div class="page-thread-heading-picture">
-            @* <img src="@Model.Hub.ThumbnailPhoto.CloudUrl" width="45px" height="45px"> *@
+            <img src="@Model.Hub.HubPhoto.CloudUrl" width="45px" height="45px">
         </div>
         <div class="page-thread-heading-category h5 ms-3 mt-1">d/@Model.Hub.Name</div>
         <div class="page-thread-heading-timestamp ms-3 mt-1">@Model.CreatedOn.ToString("dd/MM/yyyy HH:mm")</div>
     </header>
     <main class="page-thread-content mt-4">
-        <h4 class="page-thread-content-name">@Model.Title</h4>
+        <h4 class="page-thread-content-name">@Model.Title</h4> 
         <div class="page-thread-content-preview mt-3">
             @Html.Raw(Model.Content)
         </div>

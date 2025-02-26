@@ -14,6 +14,6 @@ namespace Dev.Web.Models.Thread
         public List<string> Tags { get; set; }
         public List<string> TagsIds { get; set; }
 
-        public List<IFormFile> Attachments { get; set; }
+        public List<IFormFile> Attachments { get; set; } = new List<IFormFile>();
     }
 }

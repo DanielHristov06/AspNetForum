@@ -142,7 +142,7 @@ namespace Dev.Service.Thread
             return devThreadRepository.GetAll()
                 .Include(t => t.Tags)
                 .Include(t => t.Hub)
-                    //.ThenInclude(c => c.ThumbnailPhoto)
+                    .ThenInclude(c => c.HubPhoto)
                 .Include(t => t.Reactions)
                     .ThenInclude(utr => utr.Reaction)
                         .ThenInclude(r => r.Emote)

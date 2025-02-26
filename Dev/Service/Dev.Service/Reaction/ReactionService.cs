@@ -2,11 +2,6 @@
 using Dev.Service.Mappings;
 using Dev.Service.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dev.Service.Reaction
 {
@@ -23,7 +18,7 @@ namespace Dev.Service.Reaction
         {
             Data.Models.Reaction reaction = model.ToEntity();
 
-            reaction = await this.reactionRepository.CreateAsync(reaction);
+            reaction = await reactionRepository.CreateAsync(reaction);
 
             return reaction.ToModel();
         } 
@@ -35,7 +30,7 @@ namespace Dev.Service.Reaction
 
         public IQueryable<ReactionServiceModel> GetAll()
         {
-            return this.InternalGetAll().Select(r => r.ToModel());
+            return InternalGetAll().Select(r => r.ToModel());
         }
 
         public Task<ReactionServiceModel> GetByIdAsync(string id)
