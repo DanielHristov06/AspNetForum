@@ -77,3 +77,4 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.Run();
+// heheheha
