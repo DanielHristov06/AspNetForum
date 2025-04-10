@@ -92,10 +92,10 @@
 
         pageThreadFigures.forEach(pageThreadFigure => {
             const pageThreadFigureAttachmentDetails = JSON.parse(pageThreadFigure.dataset.trixAttachment);
-
+            
             const correspondingAttachment = pageThreadAttachments
                 .filter(a => a.dataset.fileName === pageThreadFigureAttachmentDetails.filename)[0];
-
+            
             if(correspondingAttachment) {
                 const pageThreadFigureImage = pageThreadFigure.querySelector('img');
 
@@ -130,7 +130,7 @@
         }
 
         hideAllReactions();
-
+        
         targetElement.nextElementSibling.classList.remove('d-none');
         targetElement.nextElementSibling.classList.add('d-flex');
     }));
@@ -141,7 +141,7 @@
         while(![...targetElement.classList].includes('reaction-emote') && targetElement.tagName.toLowerCase() !== 'html') {
             targetElement = targetElement.parentElement;
         }
-
+        
         const reactionId = targetElement.querySelector('.reaction-id').dataset.id;
         const threadId = targetElement.parentElement.querySelector('.thread-id').dataset.id;
 
@@ -155,7 +155,13 @@
             .then((json) => {
                 hideAllReactions();
                 const currentReactionsCountElement = targetElement.parentElement.previousElementSibling.querySelector('.page-thread-footer-reactions div');
-                currentReactionsCountElement.textContent = Number(currentReactionsCountElement.textContent) + 1;
+                currentReactionsCountElement.textContent = Number(currentReactionsCountElement.textContent) + (json.isDeleted ? (-1) : 1);
+                const currentThreadUserReactionsContainer = targetElement.parentElement.parentElement.querySelector('.user-reactions-container');
+                const currentUserReactionImageElement = [...currentThreadUserReactionsContainer.querySelectorAll('img')].filter(i => i.src === json.reaction.emote.cloudUrl)[0];
+
+                if(currentUserReactionImageElement) {
+                    currentUserReactionImageElement.nextElementSibling.textContent = Number(currentUserReactionImageElement.nextElementSibling.textContent) + (json.isDeleted ? (-1) : 1);
+                }
             })
             .catch((error) => console.error(error));
     }));

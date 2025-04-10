@@ -12,14 +12,15 @@ namespace Dev.Service.Mappings
 
     public static class UserThreadReactionMappings
     {
-        public static UserThreadReactionServiceModel ToModel(this UserThreadReaction entity, UserThreadReactionMappingsContext context)
+        public static UserThreadReactionServiceModel ToModel(this UserThreadReaction entity, UserThreadReactionMappingsContext context, bool IsDeleted = false)
         {
             return new UserThreadReactionServiceModel
             {
                 Id = entity.Id,
                 Reaction = ShouldMapReaction(context) ? entity.Reaction?.ToModel() : null,
                 Thread = ShouldMapThread(context) ? entity.Thread?.ToModel() : null,
-                User = ShouldMapUser(context) ? entity.User?.ToModel() : null
+                User = ShouldMapUser(context) ? entity.User?.ToModel() : null,
+                IsDeleted = IsDeleted
             };
         }
 

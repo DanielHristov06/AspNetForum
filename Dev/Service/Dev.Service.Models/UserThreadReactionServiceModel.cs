@@ -13,5 +13,7 @@ namespace Dev.Service.Models
         public ThreadServiceModel Thread { get; set; }
 
         public ReactionServiceModel Reaction { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

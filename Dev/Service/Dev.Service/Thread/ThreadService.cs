@@ -19,6 +19,8 @@ namespace Dev.Service.Thread
 
         private readonly ReactionRepository reactionRepository;
 
+        private readonly UserThreadReactionRepository userThreadReactionRepository;
+
         private readonly IUserContextService userContextService;
 
         public ThreadService(
@@ -27,7 +29,8 @@ namespace Dev.Service.Thread
             HubRepository hubRepository,
             CommentRepository commentRepository,
             IUserContextService userContextService,
-            ReactionRepository reactionRepository)
+            ReactionRepository reactionRepository,
+            UserThreadReactionRepository userThreadReactionRepository)
         {
             this.devThreadRepository = devThreadRepository;
             this.devTagRepository = devTagRepository;
@@ -35,6 +38,7 @@ namespace Dev.Service.Thread
             this.commentRepository = commentRepository;
             this.userContextService = userContextService;
             this.reactionRepository = reactionRepository;
+            this.userThreadReactionRepository = userThreadReactionRepository;
         }
 
         public async Task<ThreadServiceModel> CreateAsync(ThreadServiceModel model)
@@ -88,7 +92,30 @@ namespace Dev.Service.Thread
 
         public async Task<UserThreadReactionServiceModel> CreateReactionOnThread(string threadId, string reactionId)
         {
-            DevThread reactionThread = await this.InternalGetByIdAsync(threadId);
+            DevThread reactionThread = await this.devThreadRepository
+                .GetAll()
+                .Include(t => t.Reactions)
+                    .ThenInclude(utr => utr.Reaction)
+                        .ThenInclude(r => r.Emote)
+                .Include(t => t.Reactions)
+                    .ThenInclude(utr => utr.User)
+                .SingleOrDefaultAsync(t => t.Id == threadId);
+
+
+            DevUser user = await userContextService.GetCurrentUserAsync();
+
+
+            UserThreadReaction existentReaction = reactionThread.Reactions
+                .SingleOrDefault(utr => utr.Reaction.Id == reactionId && utr.User.Id == user.Id);
+
+            if (existentReaction != null) 
+            {
+                await this.userThreadReactionRepository.DeleteAsync(existentReaction);
+
+                return existentReaction.ToModel(UserThreadReactionMappingsContext.User, true);
+            }
+
+
             Data.Models.Reaction reaction = await reactionRepository.GetAll()
                     .SingleOrDefaultAsync(r => r.Id == reactionId);
 
@@ -96,7 +123,7 @@ namespace Dev.Service.Thread
             {
                 Reaction = reaction,
                 Thread = reactionThread,
-                User = (await userContextService.GetCurrentUserAsync())
+                User = (user)
             };
 
             reactionThread.Reactions.Add(utr);

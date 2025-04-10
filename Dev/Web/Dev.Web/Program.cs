@@ -25,6 +25,10 @@ builder.Services.AddTransient<DevTagRepository>();
 builder.Services.AddTransient<DevThreadRepository>();
 builder.Services.AddTransient<CommentRepository>();
 builder.Services.AddTransient<ReactionRepository>();
+builder.Services.AddTransient<UserThreadReactionRepository>();
+builder.Services.AddTransient<UserCommentReactionRepository>();
+
+
 
 builder.Services.AddTransient<IHubService, HubService>();
 builder.Services.AddTransient<IDevTagService, DevTagService>();
