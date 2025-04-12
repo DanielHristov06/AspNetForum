@@ -10,90 +10,125 @@
             <div>d/@Model.Name</div>
         </div>
     </header>
-    <main>
 
-    </main>
+    <!-- ✅ Box row for rules & mods -->
+    <div class="hub-info-boxes">
+        <aside class="hub-rules-box">
+            <h3>Community Rules</h3>
+            <ul>
+                <li>No spam or self-promotion.</li>
+                <li>Be respectful to others.</li>
+                <li>Stay on topic within this hub.</li>
+                <li>Use appropriate tags when posting.</li>
+                <li>Report any violations to the mods.</li>
+            </ul>
+        </aside>
+
+        <aside class="hub-mods-box">
+            <h3>Moderators</h3>
+            <ul>
+                <li>u/AdminGuy</li>
+                <li>u/CoderQueen</li>
+                <li>u/PixelWizard</li>
+                <li>u/Tarator</li>
+            </ul>
+        </aside>
+    </div>
 </div>
 
-@foreach (var thread in (List<ThreadServiceModel>)ViewData["Threads"])
-{
-    <div class="page-thread d-flex flex-column">
-        <div class="page-thread-attachment-container" hidden>
-            @foreach (var item in thread.Attachments)
-            {
-                var itemCloudUrl = item.CloudUrl;
-                var itemCloudUrlSplit = itemCloudUrl.Split(":");
-                var itemFileName = itemCloudUrlSplit[itemCloudUrlSplit.Length - 1];
+<!-- ✅ Main thread content wrapper -->
+<div class="thread-content-wrapper">
+    @foreach (var thread in (List<ThreadServiceModel>)ViewData["Threads"])
+    {
+        <div class="page-thread d-flex flex-column">
+            <div class="page-thread-attachment-container" hidden>
+                @foreach (var item in thread.Attachments)
+                {
+                    var itemCloudUrl = item.CloudUrl;
+                    var itemCloudSplit = itemCloudUrl.Split('/');
+                    var itemFileName = itemCloudSplit[itemCloudSplit.Length - 1];
 
-                <span data-file-name="@itemFileName" data-cloud-url="@itemCloudUrl" hidden></span>
-            }
-        </div>
-        <header class="page-thread-heading d-flex justify-content-start">
-            <div class="page-thread-heading-picture">
-                <img src="@thread.Hub.HubPhoto.CloudUrl" width="45px" height="45px">
+                    <span data-file-name="@itemFileName" data-url="@itemCloudUrl" hidden></span>
+                }
             </div>
-            <div class="page-thread-heading-category h5 ms-3 mt-1"><a class="plain-link" href="/Community/Details?communityId=@thread.Hub.Id">d/@thread.Hub.Name</a></div>
-            <div class="page-thread-heading-timestamp ms-3 mt-1">@thread.CreatedOn.ToString("dd/MM/yyyy HH:mm")</div>
-        </header>
-        <main class="page-thread-content mt-4">
-            <a class="plain-link" href="/Thread/Details?threadId=@thread.Id">
-                <h4 class="page-thread-content-name">@thread.Title</h4>
+
+            <header class="page-thread-heading d-flex justify-content-start">
+                <div class="page-thread-heading-picture">
+                    <img src="@thread.Hub.HubPhoto.CloudUrl" width="45px" height="45px" />
+                </div>
+                <div class="page-thread-heading-category ms-3 me-3">
+                    <a class="plain-link" href="/Community/Details?communityId=@thread.Hub.Id">d/@thread.Hub.Name</a>
+                </div>
+                <div class="page-thread-heading-time">
+                    @thread.CreatedOn.ToString("dd/MM/yyyy HH:mm")
+                </div>
+            </header>
+
+            <main class="page-thread-content mt-2">
+                <a class="plain-link" href="/Thread/Details?threadId=@thread.Id">
+                    <h4 class="page-thread-content-name">@thread.Title</h4>
+                </a>
                 <div class="page-thread-content-preview mt-3">
                     @Html.Raw(thread.Content)
                 </div>
-            </a>
-        </main>
-        @{
-            var groupedReactions = thread.Reactions.Aggregate(new Dictionary<string, int>(), (accumulator, utr) =>
-            {
-                if (!accumulator.ContainsKey(utr.Reaction.Emote.CloudUrl))
+            </main>
+
+            <!-- Reactions section -->
+            @{
+                var groupedReactions = thread.Reactions.Aggregate(
+                    new Dictionary<string, int>(),
+                    (accumulator, utr) =>
+                    {
+                        if (!accumulator.ContainsKey(utr.Reaction.Emote.CloudUrl))
+                            accumulator[utr.Reaction.Emote.CloudUrl] = 0;
+                        accumulator[utr.Reaction.Emote.CloudUrl]++;
+                        return accumulator;
+                    });
+            }
+
+            <div class="user-reactions-container d-flex flex-row">
+                @foreach (var reaction in groupedReactions.OrderByDescending(gr => gr.Value))
                 {
-                    accumulator[utr.Reaction.Emote.CloudUrl] = 0;
+                    <div class="user-reaction d-flex justify-content-start">
+                        <img class="mt-1" src="@reaction.Key" width="15px" height="15px" />
+                        <span class="ms-2">@reaction.Value</span>
+                    </div>
                 }
+            </div>
 
-                accumulator[utr.Reaction.Emote.CloudUrl]++;
+            <footer class="page-thread-footer d-flex justify-content-start">
+                <div class="page-thread-footer-reactions d-flex justify-content-start">
+                    <img class="ms-1" src="~/images/react.svg" width="20px" height="20px" />
+                    <span class="ms-2">@thread.Reactions.Count</span>
+                </div>
+                <div class="page-thread-footer-comments d-flex justify-content-start ms-4">
+                    <img class="ms-1" src="~/images/comment.svg" width="20px" height="20px" />
+                    <span class="ms-2">@thread.Comments.Count</span>
+                </div>
+                <div class="page-thread-footer-follow ms-4">
+                    <img src="~/images/notification-enable.svg" width="20px" height="20px" />
+                    <img src="~/images/notification-disable.svg" width="20px" height="20px" />
+                </div>
+                <div class="page-thread-footer-share ms-4">
+                    <img src="~/images/share.svg" width="20px" height="20px" />
+                </div>
+            </footer>
 
-                return accumulator;
-            });
-        }
-        <div class="user-reactions-container d-flex flex-row">
-            @foreach (var reaction in groupedReactions.OrderByDescending(gr => gr.Value))
-            {
-                <div class="user-reaction d-flex justify-content-start">
-                    <img class="mt-1" src="@reaction.Key" width="15px" height="15px">
-                    <div class="ms-2">@reaction.Value</div>
-                </div>
-            }
+            <!-- Dynamic emoji reactions -->
+            <div class="reactions-container d-none flex-row">
+                <span hidden class="thread-id" data-id="@thread.Id"></span>
+                @foreach (var reaction in (List<ReactionServiceModel>)ViewData["Reactions"])
+                {
+                    <div class="reaction-emote">
+                        <span hidden class="reaction-id" data-id="@reaction.Id"></span>
+                        <img src="@reaction.Emote.CloudUrl" width="35px" height="35px" />
+                    </div>
+                }
+            </div>
         </div>
-        <footer class="page-thread-footer d-flex justify-content-start">
-            <div class="page-thread-footer-reactions d-flex justify-content-start">
-                <img class="mt-1" src="~/images/reaction.svg" width="20px" height="20px">
-                <div class="ms-2">@thread.Reactions.Count</div>
-            </div>
-            <div class="page-thread-footer-comments d-flex justify-content-start ms-4">
-                <img class="mt-1" src="~/images/comment.svg" width="20px" height="20px">
-                <div class="ms-2">@thread.Comments.Count</div>
-            </div>
-            <div class="page-thread-footer-follow ms-4">
-                <img src="~/images/notification-enable.svg" width="20px" height="20px">
-                <img src="~/images/notification-disable.svg" width="20px" height="20px">
-            </div>
-            <div class="page-thread-footer-share ms-4">
-                <img src="~/images/share.svg" width="20px" height="20px">
-            </div>
-        </footer>
-        <div class="reactions-container d-none flex-row">
-            <span hidden class="thread-id" data-id="@thread.Id"></span>
-            @foreach (var reaction in (List<ReactionServiceModel>)ViewData["Reactions"])
-            {
-                <div class="reaction-emote">
-                    <span hidden class="reaction-id" data-id="@reaction.Id"></span>
-                    <img src="@reaction.Emote.CloudUrl" width="35px" height="35px" />
-                </div>
-            }
-        </div>
-    </div>
-}
+    }
+</div>
+
 
 <script>
     [...document.querySelectorAll('.page-thread-content-preview')].forEach(pageThreadContent => {
